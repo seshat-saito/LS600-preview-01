@@ -13,6 +13,36 @@
 	<link rel="stylesheet" type="text/css" href="libs/openlayers3/ol.css">
 	<link rel="stylesheet" type="text/css" href="libs/spectrum/spectrum.css">
 	<link rel="stylesheet" type="text/css" href="libs/jstree/themes/mixed/style.css">
+
+	<style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+
+    #potree_container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+    }
+
+    #potree_render_area {
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      left: 0 !important;
+      width: 100% !important;
+    }
+
+    #potree_sidebar_container {
+    display: none !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -47,8 +77,8 @@
 		window.viewer = new Potree.Viewer(document.getElementById("potree_render_area"));
 		
 		viewer.setEDLEnabled(true);
-		viewer.setFOV(60);
-		viewer.setPointBudget(1*1000*1000);
+		viewer.setFOV(55);
+		viewer.setPointBudget(10000000);
 		document.title = "";
 		viewer.setEDLEnabled(false);
 		viewer.setBackground("gradient"); // ["skybox", "gradient", "black", "white"];
@@ -68,9 +98,9 @@
 			let material = pointcloud.material;
 			viewer.scene.addPointCloud(pointcloud);
 			material.pointColorType = Potree.PointColorType.RGB; // any Potree.PointColorType.XXXX 
-			material.size = 1;
-			material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
-			material.shape = Potree.PointShape.SQUARE;
+			material.size = 0.7;
+			material.pointSizeType = Potree.PointSizeType.FIXED;
+			material.shape = Potree.PointShape.CIRCLE;
 			viewer.fitToScreen();
 		});
 		
