@@ -5,6 +5,9 @@
   <title>Point Cloud Viewer</title>
 
   <link rel="stylesheet" href="./libs/potree/potree.css">
+  <link rel="stylesheet" href="./libs/jquery-ui/jquery-ui.min.css">
+  <link rel="stylesheet" href="./libs/perfect-scrollbar/css/perfect-scrollbar.css">
+  <link rel="stylesheet" href="./libs/jstree/themes/mixed/style.css">
 
   <style>
     html, body {
@@ -19,7 +22,6 @@
       height: 100%;
     }
 
-    /* サイドバー非表示 */
     #potree_sidebar_container {
       display: none !important;
     }
@@ -30,24 +32,30 @@
   <div id="potree_render_area"></div>
 
   <script src="./libs/jquery/jquery-3.1.1.min.js"></script>
+  <script src="./libs/spectrum/spectrum.js"></script>
+  <script src="./libs/jquery-ui/jquery-ui.min.js"></script>
+  <script src="./libs/other/BinaryHeap.js"></script>
+  <script src="./libs/tween/tween.min.js"></script>
+  <script src="./libs/d3/d3.js"></script>
+  <script src="./libs/proj4/proj4.js"></script>
+  <script src="./libs/openlayers3/ol.js"></script>
+  <script src="./libs/i18next/i18next.js"></script>
+  <script src="./libs/jstree/jstree.js"></script>
+  <script src="./libs/three.js/build/three.min.js"></script>
   <script src="./libs/potree/potree.js"></script>
 
   <script>
-    const viewer = new Potree.Viewer(document.getElementById("potree_render_area"));
+    window.viewer = new Potree.Viewer(document.getElementById("potree_render_area"));
 
-    // 見栄え設定（営業用バランス）
     viewer.setEDLEnabled(true);
     viewer.setFOV(55);
     viewer.setPointBudget(1500000);
     viewer.setBackground("gradient");
 
-    // 点群読み込み（v1はcloud.js）
-    Potree.loadPointCloud("./pointclouds/test/cloud.js", "test", e => {
-      const pointcloud = e.pointcloud;
-
+    Potree.loadPointCloud("./pointclouds/test/cloud.js", "test", function(e){
+      let pointcloud = e.pointcloud;
       viewer.scene.addPointCloud(pointcloud);
 
-      // 表示設定
       pointcloud.material.size = 0.7;
       pointcloud.material.pointSizeType = Potree.PointSizeType.FIXED;
       pointcloud.material.shape = Potree.PointShape.CIRCLE;
